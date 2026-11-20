@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><base href="https://d16ilfvy4mv02r.cloudfront.net/workspaces/23or0swj5wHDiLsvGHFrrDa8KMLkZwVu/bac06e71-4b22-43c6-aa3c-d7f1e7d3ea90/files/">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sales Performance Report — Business Analytics (Superstore)</title>
+<style>
+  :root {
+    --bg:#0d0b24; --bg2:#191444; --card:rgba(255,255,255,.055); --line:rgba(255,255,255,.12);
+    --cyan:#38e8ff; --violet:#7c5cff; --green:#3ddc97; --amber:#ffd166; --pink:#ff6b9d;
+    --text:#eef0ff; --muted:#a9aad0;
+  }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; padding:0 0 70px; background:
+      radial-gradient(900px 500px at 12% -8%, rgba(124,92,255,.35), transparent 62%),
+      radial-gradient(800px 460px at 88% 4%, rgba(56,232,255,.20), transparent 60%),
+      radial-gradient(700px 480px at 60% 100%, rgba(255,107,157,.14), transparent 60%),
+      linear-gradient(180deg,#0d0b24 0%, #120e33 45%, #191444 100%);
+    background-attachment:fixed;
+    color:var(--text); font-family:"Segoe UI",Inter,system-ui,-apple-system,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap { max-width:1060px; margin:0 auto; padding:0 22px; }
+  header.hero { padding:58px 0 34px; }
+  .eyebrow { display:inline-flex; align-items:center; gap:9px; font-size:12px; letter-spacing:.16em;
+    text-transform:uppercase; color:#c9cbff; border:1px solid var(--line); padding:7px 14px;
+    border-radius:999px; background:rgba(124,92,255,.16); }
+  .eyebrow::before { content:""; width:7px; height:7px; border-radius:50%; background:var(--green);
+    box-shadow:0 0 12px var(--green); }
+  h1 { font-size:clamp(30px,4.6vw,52px); line-height:1.06; margin:20px 0 12px; letter-spacing:-.02em; }
+  h1 .grad { background:linear-gradient(100deg,var(--cyan),var(--violet) 46%,var(--pink));
+    -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .sub { color:var(--muted); font-size:16px; max-width:760px; line-height:1.65; }
+  .chips { display:flex; flex-wrap:wrap; gap:9px; margin-top:22px; }
+  .chip { font-size:12.5px; padding:7px 13px; border-radius:999px; border:1px solid var(--line);
+    background:rgba(255,255,255,.05); color:#d9dbf7; }
+  h2 { font-size:13px; letter-spacing:.18em; text-transform:uppercase; color:#b9bbe8;
+    margin:46px 0 16px; display:flex; align-items:center; gap:12px; }
+  h2::after { content:""; flex:1; height:1px; background:linear-gradient(90deg,var(--line),transparent); }
+  .grid { display:grid; gap:15px; }
+  .kpis { grid-template-columns:repeat(4,1fr); }
+  .kpi { position:relative; overflow:hidden; padding:19px 18px 17px; border-radius:16px;
+    background:var(--card); border:1px solid var(--line); backdrop-filter:blur(6px); }
+  .kpi-top { position:absolute; inset:0 0 auto 0; height:3px; }
+  .k-cyan .kpi-top { background:linear-gradient(90deg,var(--cyan),transparent); }
+  .k-violet .kpi-top { background:linear-gradient(90deg,var(--violet),transparent); }
+  .k-green .kpi-top { background:linear-gradient(90deg,var(--green),transparent); }
+  .k-amber .kpi-top { background:linear-gradient(90deg,var(--amber),transparent); }
+  .k-pink .kpi-top { background:linear-gradient(90deg,var(--pink),transparent); }
+  .kpi-label { font-size:11.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); }
+  .kpi-value { font-size:clamp(21px,2.4vw,27px); font-weight:700; margin:9px 0 5px; letter-spacing:-.01em; }
+  .kpi-sub { font-size:12.5px; color:#b9bbe8; }
+  .panel { padding:22px; border-radius:18px; background:var(--card); border:1px solid var(--line);
+    backdrop-filter:blur(6px); }
+  .panel h3 { margin:0 0 4px; font-size:16.5px; }
+  .panel p.note { margin:0 0 12px; color:var(--muted); font-size:13px; }
+  .chart { width:100%; height:auto; display:block; }
+  .ax { fill:#9b9dc8; font-size:11.5px; font-family:inherit; }
+  .axl { fill:#7f81ad; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; }
+  .axn { fill:#dfe1fb; font-size:13px; }
+  .axv { fill:#cfd1f2; font-size:12px; font-weight:600; }
+  .axv.neg { fill:#ff8aa9; }
+  .dn { fill:#ffffff; font-size:18px; font-weight:700; }
+  .donutwrap { display:flex; align-items:center; gap:26px; flex-wrap:wrap; }
+  .legend { display:grid; gap:9px; font-size:13px; color:#cdcff0; }
+  .lg { display:flex; align-items:center; gap:9px; }
+  .dot { width:11px; height:11px; border-radius:4px; display:inline-block; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th { text-align:right; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:#a9abda;
+    padding:9px 11px; border-bottom:1px solid var(--line); font-weight:600; }
+  th:first-child, td:first-child { text-align:left; }
+  td { padding:9px 11px; text-align:right; border-bottom:1px solid rgba(255,255,255,.06); color:#e6e7fb; }
+  tbody tr:hover td { background:rgba(124,92,255,.12); }
+  td.pos { color:#63f0b4; font-weight:600; }
+  td.neg { color:#ff8aa9; font-weight:600; }
+  .alert { margin-top:16px; padding:18px 20px; border-radius:16px; font-size:13.5px; line-height:1.65;
+    background:linear-gradient(120deg,rgba(255,61,110,.16),rgba(255,209,102,.10));
+    border:1px solid rgba(255,107,157,.38); }
+  .alert b { color:#ffd166; }
+  .recs { display:grid; gap:12px; }
+  .rec { display:flex; gap:15px; padding:17px 18px; border-radius:15px; align-items:flex-start;
+    background:linear-gradient(120deg,rgba(56,232,255,.10),rgba(124,92,255,.10));
+    border:1px solid var(--line); }
+  .rec-num { flex:0 0 30px; height:30px; border-radius:9px; display:grid; place-items:center;
+    font-weight:800; font-size:13px; color:#0d0b24; background:linear-gradient(135deg,var(--cyan),var(--violet)); }
+  .rec-t { font-weight:700; font-size:14.5px; margin-bottom:4px; }
+  .rec-b { color:#c3c5ea; font-size:13px; line-height:1.55; }
+  .two { grid-template-columns:1fr 1fr; }
+  footer { margin-top:44px; color:#8e90bb; font-size:12px; line-height:1.7;
+    border-top:1px solid var(--line); padding-top:18px; }
+  @media (max-width:860px) { .kpis { grid-template-columns:repeat(2,1fr); } .two { grid-template-columns:1fr; } }
+  @media (max-width:520px) { .kpis { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Business Analytics · Superstore</div>
+    <h1>Sales Performance <span class="grad">Report 2014–2017</span></h1>
+    <p class="sub">Four years of orders, $2.30M of revenue and one recurring theme: volume is growing faster than
+    profit because discount depth is eating the margin. Everything below is computed directly from the dataset.</p>
+    <div class="chips">
+      <span class="chip">3 Jan 2014 – 30 Dec 2017</span>
+      <span class="chip">9,994 line items</span>
+      <span class="chip">5,009 orders</span>
+      <span class="chip">793 customers</span>
+      <span class="chip">49 states</span>
+      <span class="chip">USD</span>
+    </div>
+  </header>
+
+  <h2>Headline KPIs</h2>
+  <div class="grid kpis"><div class="kpi k-cyan"><div class="kpi-top"></div><div class="kpi-label">Total sales</div><div class="kpi-value">$2,297,200.86</div><div class="kpi-sub">Revenue across 9,994 line items</div></div><div class="kpi k-violet"><div class="kpi-top"></div><div class="kpi-label">Total profit</div><div class="kpi-value">$286,397.02</div><div class="kpi-sub">12.5% overall margin</div></div><div class="kpi k-green"><div class="kpi-top"></div><div class="kpi-label">Orders</div><div class="kpi-value">5,009</div><div class="kpi-sub">793 customers · 37,873 units</div></div><div class="kpi k-amber"><div class="kpi-top"></div><div class="kpi-label">Avg order value</div><div class="kpi-value">$458.61</div><div class="kpi-sub">Avg discount 15.6%</div></div><div class="kpi k-pink"><div class="kpi-top"></div><div class="kpi-label">Loss-making orders</div><div class="kpi-value">20.4%</div><div class="kpi-sub">1,022 of 5,009 orders</div></div><div class="kpi k-cyan"><div class="kpi-top"></div><div class="kpi-label">Top region</div><div class="kpi-value">West</div><div class="kpi-sub">$725,457.82 · 14.9%</div></div><div class="kpi k-violet"><div class="kpi-top"></div><div class="kpi-label">Top category</div><div class="kpi-value">Technology</div><div class="kpi-sub">$145,454.95 profit</div></div><div class="kpi k-pink"><div class="kpi-top"></div><div class="kpi-label">Profit at risk</div><div class="kpi-value">$135,376.06</div><div class="kpi-sub">Lost in discounts above 20%</div></div></div>
+
+  <h2>Sales and profit trend</h2>
+  <div class="panel">
+    <h3>Monthly sales with profit overlay</h3>
+    <p class="note">Solid cyan = monthly sales (left scale). Dashed amber = monthly profit (right scale).
+    September, November and December are the peaks; January, February and July the troughs.</p>
+    <svg viewBox="0 0 940 340" class="chart" role="img"><defs><linearGradient id="gArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#38e8ff" stop-opacity="0.55"/><stop offset="100%" stop-color="#38e8ff" stop-opacity="0.02"/></linearGradient></defs><line x1="64" y1="24.0" x2="876" y2="24.0" stroke="#ffffff" stroke-opacity="0.10"/><text x="54" y="28.0" text-anchor="end" class="ax">$130k</text><line x1="64" y1="92.0" x2="876" y2="92.0" stroke="#ffffff" stroke-opacity="0.10"/><text x="54" y="96.0" text-anchor="end" class="ax">$98k</text><line x1="64" y1="160.0" x2="876" y2="160.0" stroke="#ffffff" stroke-opacity="0.10"/><text x="54" y="164.0" text-anchor="end" class="ax">$65k</text><line x1="64" y1="228.0" x2="876" y2="228.0" stroke="#ffffff" stroke-opacity="0.10"/><text x="54" y="232.0" text-anchor="end" class="ax">$33k</text><line x1="64" y1="296.0" x2="876" y2="296.0" stroke="#ffffff" stroke-opacity="0.10"/><text x="54" y="300.0" text-anchor="end" class="ax">$0k</text><polygon points="64,296 64.0,266.3 81.3,286.6 98.6,179.7 115.8,236.9 133.1,246.6 150.4,223.8 167.7,225.1 184.9,237.7 202.2,125.3 219.5,230.3 236.8,131.9 254.0,150.8 271.3,258.1 288.6,271.1 305.9,215.2 323.1,224.6 340.4,233.1 357.7,244.2 375.0,235.9 392.3,219.0 409.5,161.1 426.8,230.4 444.1,137.4 461.4,139.6 478.6,257.3 495.9,248.0 513.2,188.0 530.5,215.1 547.7,177.0 565.0,211.8 582.3,214.0 599.6,231.0 616.9,142.7 634.1,171.4 651.4,130.2 668.7,93.5 686.0,204.2 703.2,253.6 720.5,173.1 737.8,219.8 755.1,203.6 772.3,185.4 789.6,201.5 806.9,164.2 824.2,112.6 841.4,133.6 858.7,48.7 876.0,121.0 876,296" fill="url(#gArea)"/><polyline points="64.0,266.3 81.3,286.6 98.6,179.7 115.8,236.9 133.1,246.6 150.4,223.8 167.7,225.1 184.9,237.7 202.2,125.3 219.5,230.3 236.8,131.9 254.0,150.8 271.3,258.1 288.6,271.1 305.9,215.2 323.1,224.6 340.4,233.1 357.7,244.2 375.0,235.9 392.3,219.0 409.5,161.1 426.8,230.4 444.1,137.4 461.4,139.6 478.6,257.3 495.9,248.0 513.2,188.0 530.5,215.1 547.7,177.0 565.0,211.8 582.3,214.0 599.6,231.0 616.9,142.7 634.1,171.4 651.4,130.2 668.7,93.5 686.0,204.2 703.2,253.6 720.5,173.1 737.8,219.8 755.1,203.6 772.3,185.4 789.6,201.5 806.9,164.2 824.2,112.6 841.4,133.6 858.7,48.7 876.0,121.0" fill="none" stroke="#38e8ff" stroke-width="2.6" stroke-linejoin="round"/><polyline points="64.0,239.5 81.3,248.8 98.6,250.9 115.8,233.5 133.1,237.8 150.4,224.8 167.7,258.8 184.9,222.8 202.2,205.2 219.5,233.7 236.8,199.6 254.0,201.4 271.3,273.0 288.6,237.4 305.9,197.0 323.1,229.4 340.4,226.6 357.7,234.4 375.0,234.6 392.3,222.6 409.5,205.9 426.8,237.4 444.1,181.0 461.4,207.0 478.6,237.3 495.9,224.6 513.2,232.7 530.5,236.4 547.7,203.2 565.0,226.1 582.3,227.9 599.6,241.8 616.9,199.3 634.1,159.0 651.4,230.4 668.7,149.4 686.0,212.1 703.2,244.4 720.5,167.7 737.8,248.4 755.1,216.8 772.3,205.8 789.6,213.2 806.9,201.0 824.2,189.6 841.4,199.7 858.7,197.2 876.0,204.3" fill="none" stroke="#ffd166" stroke-width="2.2" stroke-dasharray="5 4"/><line x1="64.0" y1="24" x2="64.0" y2="296" stroke="#ffffff" stroke-opacity="0.08"/><text x="64.0" y="318" text-anchor="middle" class="ax">2014</text><line x1="271.3" y1="24" x2="271.3" y2="296" stroke="#ffffff" stroke-opacity="0.08"/><text x="271.3" y="318" text-anchor="middle" class="ax">2015</text><line x1="478.6" y1="24" x2="478.6" y2="296" stroke="#ffffff" stroke-opacity="0.08"/><text x="478.6" y="318" text-anchor="middle" class="ax">2016</text><line x1="686.0" y1="24" x2="686.0" y2="296" stroke="#ffffff" stroke-opacity="0.08"/><text x="686.0" y="318" text-anchor="middle" class="ax">2017</text><text x="64" y="18" class="axl">sales</text><text x="876" y="18" text-anchor="end" class="axl">profit</text></svg>
+  </div>
+
+  <div class="grid two" style="margin-top:15px">
+    <div class="panel">
+      <h3>Yearly performance</h3>
+      <p class="note">Sales vs profit by year, with margin labelled.</p>
+      <svg viewBox="0 0 940 300" class="chart" role="img"><defs><linearGradient id="gBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7c5cff"/><stop offset="100%" stop-color="#3b1f9e"/></linearGradient><linearGradient id="gBar2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3ddc97"/><stop offset="100%" stop-color="#128a5b"/></linearGradient></defs><line x1="64" y1="26.0" x2="920" y2="26.0" stroke="#fff" stroke-opacity="0.10"/><text x="54" y="30.0" text-anchor="end" class="ax">$843k</text><line x1="64" y1="84.0" x2="920" y2="84.0" stroke="#fff" stroke-opacity="0.10"/><text x="54" y="88.0" text-anchor="end" class="ax">$632k</text><line x1="64" y1="142.0" x2="920" y2="142.0" stroke="#fff" stroke-opacity="0.10"/><text x="54" y="146.0" text-anchor="end" class="ax">$422k</text><line x1="64" y1="200.0" x2="920" y2="200.0" stroke="#fff" stroke-opacity="0.10"/><text x="54" y="204.0" text-anchor="end" class="ax">$211k</text><line x1="64" y1="258.0" x2="920" y2="258.0" stroke="#fff" stroke-opacity="0.10"/><text x="54" y="262.0" text-anchor="end" class="ax">$0k</text><rect x="116.6" y="124.8" width="51.4" height="133.2" rx="5" fill="url(#gBar)"/><rect x="174.0" y="244.4" width="51.4" height="13.6" rx="5" fill="url(#gBar2)"/><text x="171.0" y="278" text-anchor="middle" class="ax">2014</text><text x="171.0" y="116.8" text-anchor="middle" class="axv">$484k · 10.2%</text><rect x="330.6" y="128.5" width="51.4" height="129.5" rx="5" fill="url(#gBar)"/><rect x="388.0" y="241.0" width="51.4" height="17.0" rx="5" fill="url(#gBar2)"/><text x="385.0" y="278" text-anchor="middle" class="ax">2015</text><text x="385.0" y="120.5" text-anchor="middle" class="axv">$471k · 13.1%</text><rect x="544.6" y="90.4" width="51.4" height="167.6" rx="5" fill="url(#gBar)"/><rect x="602.0" y="235.5" width="51.4" height="22.5" rx="5" fill="url(#gBar2)"/><text x="599.0" y="278" text-anchor="middle" class="ax">2016</text><text x="599.0" y="82.4" text-anchor="middle" class="axv">$609k · 13.4%</text><rect x="758.6" y="56.3" width="51.4" height="201.7" rx="5" fill="url(#gBar)"/><rect x="816.0" y="232.3" width="51.4" height="25.7" rx="5" fill="url(#gBar2)"/><text x="813.0" y="278" text-anchor="middle" class="ax">2017</text><text x="813.0" y="48.3" text-anchor="middle" class="axv">$733k · 12.7%</text></svg>
+    </div>
+    <div class="panel">
+      <h3>Category mix</h3>
+      <p class="note">Share of total sales.</p>
+      <div class="donutwrap"><svg viewBox="0 0 300 300" width="300" height="300"><circle cx="150.0" cy="150.0" r="124.0" fill="none" stroke="#ffffff" stroke-opacity="0.08" stroke-width="34"/><circle cx="150.0" cy="150.0" r="124.0" fill="none" stroke="#38e8ff" stroke-width="34" stroke-dasharray="280.6 498.5" stroke-dashoffset="0.0" transform="rotate(-90 150.0 150.0)" stroke-linecap="butt"/><circle cx="150.0" cy="150.0" r="124.0" fill="none" stroke="#ffd166" stroke-width="34" stroke-dasharray="248.7 530.5" stroke-dashoffset="-283.6" transform="rotate(-90 150.0 150.0)" stroke-linecap="butt"/><circle cx="150.0" cy="150.0" r="124.0" fill="none" stroke="#ff6b9d" stroke-width="34" stroke-dasharray="240.9 538.2" stroke-dashoffset="-535.2" transform="rotate(-90 150.0 150.0)" stroke-linecap="butt"/><text x="150.0" y="146.0" text-anchor="middle" class="dn">$2,297,200.86</text><text x="150.0" y="170.0" text-anchor="middle" class="ax">total sales</text></svg><div class="legend"><div class="lg"><span class="dot" style="background:#38e8ff"></span><b>Technology</b> $836,154.03 · 36.4%</div><div class="lg"><span class="dot" style="background:#ffd166"></span><b>Furniture</b> $741,999.80 · 32.3%</div><div class="lg"><span class="dot" style="background:#ff6b9d"></span><b>Office Supplies</b> $719,047.03 · 31.3%</div></div></div>
+    </div>
+  </div>
+
+  <h2>Regions and states</h2>
+  <div class="panel">
+    <h3>Sales by region</h3>
+    <p class="note">Bar length = sales, right label = profit margin. Central discounts deepest (24.0%) and earns least.</p>
+    <svg viewBox="0 0 940 206" class="chart" role="img"><text x="138" y="31" text-anchor="end" class="axn">West</text><rect x="150" y="17" width="600" height="22" rx="11" fill="#ffffff" fill-opacity="0.07"/><rect x="150" y="17" width="600.0" height="22" rx="11" fill="#38e8ff" fill-opacity="0.92"/><text x="762.0" y="32" class="axv">$725,457.82</text><text x="932" y="32" text-anchor="end" class="axv">14.9% margin</text><text x="138" y="77" text-anchor="end" class="axn">East</text><rect x="150" y="63" width="600" height="22" rx="11" fill="#ffffff" fill-opacity="0.07"/><rect x="150" y="63" width="561.4" height="22" rx="11" fill="#7c5cff" fill-opacity="0.92"/><text x="723.4" y="78" class="axv">$678,781.24</text><text x="932" y="78" text-anchor="end" class="axv">13.5% margin</text><text x="138" y="123" text-anchor="end" class="axn">Central</text><rect x="150" y="109" width="600" height="22" rx="11" fill="#ffffff" fill-opacity="0.07"/><rect x="150" y="109" width="414.6" height="22" rx="11" fill="#3ddc97" fill-opacity="0.92"/><text x="576.6" y="124" class="axv">$501,239.89</text><text x="932" y="124" text-anchor="end" class="axv">7.9% margin</text><text x="138" y="169" text-anchor="end" class="axn">South</text><rect x="150" y="155" width="600" height="22" rx="11" fill="#ffffff" fill-opacity="0.07"/><rect x="150" y="155" width="324.0" height="22" rx="11" fill="#ffd166" fill-opacity="0.92"/><text x="486.0" y="170" class="axv">$391,721.91</text><text x="932" y="170" text-anchor="end" class="axv">11.9% margin</text></svg>
+  </div>
+  <div class="grid two" style="margin-top:15px">
+    <div class="panel">
+      <h3 style="margin-bottom:12px">Most profitable states</h3>
+      <table class=""><thead><tr><th>State</th><th>Sales</th><th>Profit</th><th>Margin</th><th>Orders</th></tr></thead><tbody><tr><td>California</td><td>$457,687.63</td><td class="pos">$76,381.39</td><td>16.7%</td><td>1,021</td></tr><tr><td>New York</td><td>$310,876.27</td><td class="pos">$74,038.55</td><td>23.8%</td><td>562</td></tr><tr><td>Washington</td><td>$138,641.27</td><td class="pos">$33,402.65</td><td>24.1%</td><td>256</td></tr><tr><td>Michigan</td><td>$76,269.61</td><td class="pos">$24,463.19</td><td>32.1%</td><td>117</td></tr><tr><td>Virginia</td><td>$70,636.72</td><td class="pos">$18,597.95</td><td>26.3%</td><td>115</td></tr><tr><td>Indiana</td><td>$53,555.36</td><td class="pos">$18,382.94</td><td>34.3%</td><td>73</td></tr></tbody></table>
+    </div>
+    <div class="panel">
+      <h3 style="margin-bottom:12px">Loss-making states</h3>
+      <table class=""><thead><tr><th>State</th><th>Sales</th><th>Profit</th><th>Margin</th><th>Orders</th></tr></thead><tbody><tr><td>Texas</td><td>$170,188.05</td><td class="neg">$-25,729.36</td><td>-15.1%</td><td>487</td></tr><tr><td>Ohio</td><td>$78,258.14</td><td class="neg">$-16,971.38</td><td>-21.7%</td><td>236</td></tr><tr><td>Pennsylvania</td><td>$116,511.91</td><td class="neg">$-15,559.96</td><td>-13.4%</td><td>288</td></tr><tr><td>Illinois</td><td>$80,166.10</td><td class="neg">$-12,607.89</td><td>-15.7%</td><td>276</td></tr><tr><td>North Carolina</td><td>$55,603.16</td><td class="neg">$-7,490.91</td><td>-13.5%</td><td>136</td></tr><tr><td>Colorado</td><td>$32,108.12</td><td class="neg">$-6,527.86</td><td>-20.3%</td><td>79</td></tr></tbody></table>
+      <p class="note" style="margin:12px 0 0">10 of 49 states are unprofitable.</p>
+    </div>
+  </div>
+
+  <h2>Categories and products</h2>
+  <div class="panel">
+    <h3 style="margin-bottom:12px">Category summary</h3>
+    <table class=""><thead><tr><th>Category</th><th>Sales</th><th>Profit</th><th>Margin</th><th>Orders</th><th>Avg discount</th></tr></thead><tbody><tr><td>Technology</td><td>$836,154.03</td><td>$145,454.95</td><td>17.4%</td><td>1,544</td><td>13.2%</td></tr><tr><td>Furniture</td><td>$741,999.80</td><td>$18,451.27</td><td>2.5%</td><td>1,764</td><td>17.4%</td></tr><tr><td>Office Supplies</td><td>$719,047.03</td><td>$122,490.80</td><td>17.0%</td><td>3,742</td><td>15.7%</td></tr></tbody></table>
+    <div class="alert">Furniture carries <b>32.3% of revenue</b> but returns a <b>2.5% margin</b> — one-eighth of
+    Technology's profit on similar sales.</div>
+  </div>
+  <div class="panel" style="margin-top:15px">
+    <h3 style="margin-bottom:12px">All 17 sub-categories</h3>
+    <table class=""><thead><tr><th>Sub-category</th><th>Sales</th><th>Profit</th><th>Margin</th><th>Orders</th><th>Avg discount</th></tr></thead><tbody><tr><td>Phones</td><td>$330,007.05</td><td>$44,515.73</td><td class="pos">13.5%</td><td>814</td><td>15.5%</td></tr><tr><td>Chairs</td><td>$328,449.10</td><td>$26,590.17</td><td class="pos">8.1%</td><td>576</td><td>17.0%</td></tr><tr><td>Storage</td><td>$223,843.61</td><td>$21,278.83</td><td class="pos">9.5%</td><td>777</td><td>7.5%</td></tr><tr><td>Tables</td><td>$206,965.53</td><td>$-17,725.48</td><td class="neg">-8.6%</td><td>307</td><td>26.1%</td></tr><tr><td>Binders</td><td>$203,412.73</td><td>$30,221.76</td><td class="pos">14.9%</td><td>1,316</td><td>37.2%</td></tr><tr><td>Machines</td><td>$189,238.63</td><td>$3,384.76</td><td class="pos">1.8%</td><td>112</td><td>30.6%</td></tr><tr><td>Accessories</td><td>$167,380.32</td><td>$41,936.64</td><td class="pos">25.1%</td><td>718</td><td>7.8%</td></tr><tr><td>Copiers</td><td>$149,528.03</td><td>$55,617.82</td><td class="pos">37.2%</td><td>68</td><td>16.2%</td></tr><tr><td>Bookcases</td><td>$114,880.00</td><td>$-3,472.56</td><td class="neg">-3.0%</td><td>224</td><td>21.1%</td></tr><tr><td>Appliances</td><td>$107,532.16</td><td>$18,138.01</td><td class="pos">16.9%</td><td>451</td><td>16.7%</td></tr><tr><td>Furnishings</td><td>$91,705.16</td><td>$13,059.14</td><td class="pos">14.2%</td><td>877</td><td>13.8%</td></tr><tr><td>Paper</td><td>$78,479.21</td><td>$34,053.57</td><td class="pos">43.4%</td><td>1,191</td><td>7.5%</td></tr><tr><td>Supplies</td><td>$46,673.54</td><td>$-1,189.10</td><td class="neg">-2.5%</td><td>187</td><td>7.7%</td></tr><tr><td>Art</td><td>$27,118.79</td><td>$6,527.79</td><td class="pos">24.1%</td><td>731</td><td>7.5%</td></tr><tr><td>Envelopes</td><td>$16,476.40</td><td>$6,964.18</td><td class="pos">42.3%</td><td>249</td><td>8.0%</td></tr><tr><td>Labels</td><td>$12,486.31</td><td>$5,546.25</td><td class="pos">44.4%</td><td>346</td><td>6.9%</td></tr><tr><td>Fasteners</td><td>$3,024.28</td><td>$949.52</td><td class="pos">31.4%</td><td>215</td><td>8.2%</td></tr></tbody></table>
+  </div>
+  <div class="grid two" style="margin-top:15px">
+    <div class="panel">
+      <h3 style="margin-bottom:12px">Top products by profit</h3>
+      <table class=""><thead><tr><th>Product</th><th>Sales</th><th>Profit</th><th>Margin</th></tr></thead><tbody><tr><td>Canon imageCLASS 2200 Advanced Copier</td><td>$61,599.82</td><td class="pos">$25,199.93</td><td>40.9%</td></tr><tr><td>Fellowes PB500 Electric Punch Plastic Comb Binding M</td><td>$27,453.38</td><td class="pos">$7,753.04</td><td>28.2%</td></tr><tr><td>Hewlett Packard LaserJet 3310 Copier</td><td>$18,839.69</td><td class="pos">$6,983.88</td><td>37.1%</td></tr><tr><td>Canon PC1060 Personal Laser Copier</td><td>$11,619.83</td><td class="pos">$4,570.93</td><td>39.3%</td></tr><tr><td>HP Designjet T520 Inkjet Large Format Printer - 24&quot; </td><td>$18,374.90</td><td class="pos">$4,094.98</td><td>22.3%</td></tr></tbody></table>
+    </div>
+    <div class="panel">
+      <h3 style="margin-bottom:12px">Worst products by profit</h3>
+      <table class=""><thead><tr><th>Product</th><th>Sales</th><th>Profit</th><th>Margin</th></tr></thead><tbody><tr><td>Cubify CubeX 3D Printer Double Head Print</td><td>$11,099.96</td><td class="neg">$-8,879.97</td><td>-80.0%</td></tr><tr><td>Lexmark MX611dhe Monochrome Laser Printer</td><td>$16,829.90</td><td class="neg">$-4,589.97</td><td>-27.3%</td></tr><tr><td>Cubify CubeX 3D Printer Triple Head Print</td><td>$7,999.98</td><td class="neg">$-3,839.99</td><td>-48.0%</td></tr><tr><td>Chromcraft Bull-Nose Wood Oval Conference Tables &amp; B</td><td>$9,917.64</td><td class="neg">$-2,876.12</td><td>-29.0%</td></tr><tr><td>Bush Advantage Collection Racetrack Conference Table</td><td>$9,544.73</td><td class="neg">$-1,934.40</td><td>-20.3%</td></tr></tbody></table>
+    </div>
+  </div>
+
+  <h2>Customer segments and shipping</h2>
+  <div class="grid two">
+    <div class="panel">
+      <h3 style="margin-bottom:12px">Segments</h3>
+      <table class=""><thead><tr><th>Segment</th><th>Sales</th><th>Profit</th><th>Margin</th><th>Orders</th><th>Avg discount</th></tr></thead><tbody><tr><td>Consumer</td><td>$1,161,401.34</td><td>$134,119.21</td><td>11.5%</td><td>2,586</td><td>15.8%</td></tr><tr><td>Corporate</td><td>$706,146.37</td><td>$91,979.13</td><td>13.0%</td><td>1,514</td><td>15.8%</td></tr><tr><td>Home Office</td><td>$429,653.15</td><td>$60,298.68</td><td>14.0%</td><td>909</td><td>14.7%</td></tr></tbody></table>
+    </div>
+    <div class="panel">
+      <h3 style="margin-bottom:12px">Ship modes</h3>
+      <table class=""><thead><tr><th>Ship mode</th><th>Sales</th><th>Profit</th><th>Margin</th><th>Orders</th></tr></thead><tbody><tr><td>Standard Class</td><td>$1,358,215.74</td><td>$164,088.79</td><td>12.1%</td><td>2,994</td></tr><tr><td>Second Class</td><td>$459,193.57</td><td>$57,446.64</td><td>12.5%</td><td>964</td></tr><tr><td>First Class</td><td>$351,428.42</td><td>$48,969.84</td><td>13.9%</td><td>787</td></tr><tr><td>Same Day</td><td>$128,363.12</td><td>$15,891.76</td><td>12.4%</td><td>264</td></tr></tbody></table>
+      <p class="note" style="margin:12px 0 0">Fulfilment choice barely moves margin (12.1%–13.9%).</p>
+    </div>
+  </div>
+
+  <h2>The discount problem</h2>
+  <div class="panel">
+    <h3>Profit by discount band</h3>
+    <p class="note">Bars above the line are profitable, below the line are losses. Every band above 20% is negative.</p>
+    <svg viewBox="0 0 940 330" class="chart" role="img"><defs><linearGradient id="gPos" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3ddc97"/><stop offset="100%" stop-color="#0f7a52"/></linearGradient><linearGradient id="gNeg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ff3d6e"/><stop offset="100%" stop-color="#8f1233"/></linearGradient></defs><line x1="20" y1="156.0" x2="920" y2="156.0" stroke="#fff" stroke-opacity="0.35"/><rect x="57.5" y="55.2" width="75.0" height="100.8" rx="6" fill="url(#gPos)"/><text x="95.0" y="302" text-anchor="middle" class="axn">0%</text><text x="95.0" y="318" text-anchor="middle" class="ax">47.4% of sales</text><text x="95.0" y="47.2" text-anchor="middle" class="axv">$320,987.60</text><text x="95.0" y="31.2" text-anchor="middle" class="ax">29.5%</text><rect x="207.5" y="153.2" width="75.0" height="2.8" rx="6" fill="url(#gPos)"/><text x="245.0" y="302" text-anchor="middle" class="axn">1-10%</text><text x="245.0" y="318" text-anchor="middle" class="ax">2.4% of sales</text><text x="245.0" y="145.2" text-anchor="middle" class="axv">$9,029.18</text><text x="245.0" y="129.2" text-anchor="middle" class="ax">16.6%</text><rect x="357.5" y="127.2" width="75.0" height="28.8" rx="6" fill="url(#gPos)"/><text x="395.0" y="302" text-anchor="middle" class="axn">11-20%</text><text x="395.0" y="318" text-anchor="middle" class="ax">34.5% of sales</text><text x="395.0" y="119.2" text-anchor="middle" class="axv">$91,756.30</text><text x="395.0" y="103.2" text-anchor="middle" class="ax">11.6%</text><rect x="507.5" y="156.0" width="75.0" height="3.3" rx="6" fill="url(#gNeg)"/><text x="545.0" y="302" text-anchor="middle" class="axn">21-30%</text><text x="545.0" y="318" text-anchor="middle" class="ax">4.5% of sales</text><text x="545.0" y="175.3" text-anchor="middle" class="axv neg">$-10,369.28</text><text x="545.0" y="191.3" text-anchor="middle" class="ax">-10.0%</text><rect x="657.5" y="156.0" width="75.0" height="15.2" rx="6" fill="url(#gNeg)"/><text x="695.0" y="302" text-anchor="middle" class="axn">31-50%</text><text x="695.0" y="318" text-anchor="middle" class="ax">8.5% of sales</text><text x="695.0" y="187.2" text-anchor="middle" class="axv neg">$-48,447.73</text><text x="695.0" y="203.2" text-anchor="middle" class="ax">-24.8%</text><rect x="807.5" y="156.0" width="75.0" height="24.0" rx="6" fill="url(#gNeg)"/><text x="845.0" y="302" text-anchor="middle" class="axn">50%+</text><text x="845.0" y="318" text-anchor="middle" class="ax">2.8% of sales</text><text x="845.0" y="196.0" text-anchor="middle" class="axv neg">$-76,559.05</text><text x="845.0" y="212.0" text-anchor="middle" class="ax">-119.2%</text></svg>
+    <div class="alert"><b>Every band above 20% loses money.</b> Those bands carry only 15.8% of sales
+    ($362,770.15) yet destroy <b>$135,376.06</b> — nearly half of the $286,397.02 total profit.
+    Across the whole file, 1,871 loss-making line items (18.7%)
+    average a <b>48.1% discount</b> and turn $468,707.15 of sales into a $156,131.29 loss.</div>
+  </div>
+  <div class="panel" style="margin-top:15px">
+    <h3 style="margin-bottom:12px">Discount band detail</h3>
+    <table class=""><thead><tr><th>Band</th><th>Sales</th><th>Share of sales</th><th>Profit</th><th>Margin</th><th>Line items</th></tr></thead><tbody><tr><td>0%</td><td>$1,087,908.47</td><td>47.4%</td><td>$320,987.60</td><td class="pos">29.5%</td><td>4,798</td></tr><tr><td>1-10%</td><td>$54,369.35</td><td>2.4%</td><td>$9,029.18</td><td class="pos">16.6%</td><td>94</td></tr><tr><td>11-20%</td><td>$792,152.89</td><td>34.5%</td><td>$91,756.30</td><td class="pos">11.6%</td><td>3,709</td></tr><tr><td>21-30%</td><td>$103,226.65</td><td>4.5%</td><td>$-10,369.28</td><td class="neg">-10.0%</td><td>227</td></tr><tr><td>31-50%</td><td>$195,314.76</td><td>8.5%</td><td>$-48,447.73</td><td class="neg">-24.8%</td><td>310</td></tr><tr><td>50%+</td><td>$64,228.74</td><td>2.8%</td><td>$-76,559.05</td><td class="neg">-119.2%</td><td>856</td></tr></tbody></table>
+  </div>
+
+  <h2>Seasonality</h2>
+  <div class="panel">
+    <h3 style="margin-bottom:12px">Average sales and margin by month</h3>
+    <table class=""><thead><tr><th>Month</th><th>Avg sales</th><th>Profit</th><th>Margin</th></tr></thead><tbody><tr><td>Jan</td><td>$23,731.21</td><td>$9,134.45</td><td>9.6%</td></tr><tr><td>Feb</td><td>$14,937.81</td><td>$10,294.61</td><td>17.2%</td></tr><tr><td>Mar</td><td>$51,251.37</td><td>$28,594.69</td><td>13.9%</td></tr><tr><td>Apr</td><td>$34,440.53</td><td>$11,587.44</td><td>8.4%</td></tr><tr><td>May</td><td>$38,757.20</td><td>$22,411.31</td><td>14.5%</td></tr><tr><td>Jun</td><td>$38,179.67</td><td>$21,285.80</td><td>13.9%</td></tr><tr><td>Jul</td><td>$36,809.52</td><td>$13,832.66</td><td>9.4%</td></tr><tr><td>Aug</td><td>$39,761.02</td><td>$21,776.94</td><td>13.7%</td></tr><tr><td>Sep</td><td>$76,912.49</td><td>$36,857.48</td><td>12.0%</td></tr><tr><td>Oct</td><td>$50,080.75</td><td>$31,784.04</td><td>15.9%</td></tr><tr><td>Nov</td><td>$88,115.27</td><td>$35,468.43</td><td>10.1%</td></tr><tr><td>Dec</td><td>$81,323.38</td><td>$43,369.19</td><td>13.3%</td></tr></tbody></table>
+    <p class="note" style="margin:12px 0 0">The biggest months are also the thinnest: November averages
+    $88,115.27 of sales at just 10.1% margin.</p>
+  </div>
+
+  <h2>Recommendations</h2>
+  <div class="recs"><div class="rec"><div class="rec-num">1</div><div><div class="rec-t">Cap discretionary discounts at 20%</div><div class="rec-b">Every band above 20% is loss-making; those bands destroy $135,376.06 while carrying only 15.8% of sales.</div></div></div><div class="rec"><div class="rec-num">2</div><div><div class="rec-t">Reprice or delist Tables, Bookcases and Supplies</div><div class="rec-b">The three loss-making sub-categories give up $22,387.14 of profit on $368,519.07 of sales.</div></div></div><div class="rec"><div class="rec-num">3</div><div><div class="rec-t">Put Texas, Ohio, Pennsylvania and Illinois on discount review</div><div class="rec-b">Together they lose $70,868.59; Texas alone loses $25,729.36 on $170,188.05 of sales.</div></div></div><div class="rec"><div class="rec-num">4</div><div><div class="rec-t">Grow Copiers, Paper and Accessories</div><div class="rec-b">Copiers earn $55,617.82 at a 37.2% margin from only 68 orders — the highest-yield line in the dataset.</div></div></div><div class="rec"><div class="rec-num">5</div><div><div class="rec-t">Protect Q4 margin, not just Q4 volume</div><div class="rec-b">Q4 2017 hit a record $280,054.07 at 9.8% margin versus 16.2% the year before.</div></div></div></div>
+
+  <footer>
+    Source: Business Analytics (Superstore) sample — 9,994 rows, 3 Jan 2014 to 30 Dec 2017.
+    All figures computed from the dataset; none estimated. Amounts in USD, rounded to 2 decimals.
+  </footer>
+</div>
+</body>
+</html>
